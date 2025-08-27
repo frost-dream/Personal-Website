@@ -1,0 +1,412 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Sadra's Minimal Personal Site</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<meta name="description" content="Minimal personal site — Home, Projects, Blog, Tutorials. Static, JS-only, ready for GitHub Pages.">
+<style>
+:root{
+  --bg:#ffffff;
+  --text:#0b1220;
+  --muted:#6b7280;
+  --card:#f8fafc;
+  --accent:#0ea5a4;
+  --radius:14px;
+  --maxw:1100px;
+  --glass:rgba(255,255,255,0.6);
+}
+[data-theme="dark"]{
+  --bg:#071022;
+  --text:#e6eef6;
+  --muted:#9aa8b6;
+  --card:rgba(255,255,255,0.03);
+  --glass:rgba(255,255,255,0.04);
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background:linear-gradient(180deg,var(--bg), color-mix(in srgb,var(--bg) 98%, transparent));
+  color:var(--text);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  padding:0;
+  display:flex;
+  justify-content:center;
+}
+.wrap{width:100%;max-width:var(--maxw)}
+.header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:14px 20px;
+  background:transparent;
+  transition:backdrop-filter .25s ease, padding .25s ease, background .25s ease, box-shadow .25s ease;
+}
+@media(min-width:760px){
+  .header{position:sticky;top:0;background:var(--card);backdrop-filter: blur(6px);box-shadow:0 6px 20px rgba(0,0,0,0.04)}
+}
+.brand{display:flex;align-items:center;gap:12px}
+.logo{
+  width:56px;height:56px;border-radius:12px;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:20px;overflow:hidden;flex-shrink:0;background:linear-gradient(135deg,var(--accent), color-mix(in srgb,var(--accent) 70%, black));
+  transition:transform .35s ease, width .35s ease, height .35s ease, border-radius .35s ease;
+}
+.logo img{width:100%;height:100%;object-fit:cover;display:block}
+.sitename{line-height:1}
+.sitename .title{font-weight:700}
+.controls{display:flex;gap:8px;align-items:center}
+nav{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+nav a{padding:8px 12px;border-radius:10px;text-decoration:none;color:var(--text);font-weight:600}
+nav a.active{background:var(--glass)}
+.search{min-width:220px;border-radius:10px;padding:8px;background:var(--card);display:flex;gap:8px;align-items:center}
+.search input{border:0;background:transparent;outline:none;color:var(--text);width:100%}
+main{background:transparent}
+.page{padding:0 18px}
+.container{display:grid;grid-template-columns:1fr;gap:18px;padding-bottom:40px}
+.hero{
+  position:relative;
+  display:grid;
+  place-items:center;
+  height:380px;
+  border-radius:0 0 var(--radius) var(--radius);
+  overflow:hidden;
+  margin-bottom:20px;
+  transition:height .45s ease;
+}
+.hero .hero-img{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:contrast(.95) saturate(.98);
+  transform:scale(1.03);transition:transform .7s ease,filter .4s ease,opacity .4s ease;
+}
+.hero .overlay{position:absolute;inset:0;background:linear-gradient(180deg, rgba(0,0,0,0.25), rgba(0,0,0,0.06));mix-blend-mode:multiply}
+.hero .hero-inner{position:relative;z-index:2;display:flex;align-items:center;gap:20px;padding:20px;width:100%;max-width:var(--maxw);box-sizing:border-box}
+.hero .pfp-hero{
+  width:240px;height:240px;border-radius:16px;overflow:hidden;box-shadow:0 18px 40px rgba(0,0,0,0.28);flex-shrink:0;transition:transform .45s cubic-bezier(.2,.9,.2,1),width .45s ease,height .45s ease,border-radius .45s ease;
+}
+.hero .pfp-hero img{width:100%;height:100%;object-fit:cover;display:block;transform:scale(1.02);transition:transform .6s ease}
+.hero .hero-text{color:var(--text);text-shadow:0 6px 26px rgba(0,0,0,0.18);max-width:calc(100% - 280px)}
+.hero h1{font-size:40px;margin:0}
+.hero p{margin-top:8px;color:var(--muted);font-size:25px;-webkit-text-stroke: 1px white;}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.card{background:var(--card);padding:14px;border-radius:12px;box-shadow:0 6px 18px rgba(0,0,0,0.03);transition:transform .3s ease,box-shadow .3s ease}
+.card:hover{transform:translateY(-6px) scale(1.02);box-shadow:0 10px 28px rgba(0,0,0,0.12)}
+.card h3{margin:0 0 8px 0}
+.card p{margin:0;color:var(--muted)}
+.meta{font-size:13px;color:var(--muted);margin-top:8px}
+.md{line-height:1.6}
+pre{background:rgba(0,0,0,0.05);padding:12px;border-radius:8px;overflow:auto}
+footer{margin-top:28px;color:var(--muted);font-size:13px;padding:28px 18px;text-align:center}
+.fade-in{opacity:0;transform:translateY(20px);animation:fadeUp .8s ease forwards}
+@keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
+.logo-small{width:44px;height:44px;border-radius:10px}
+.scrolled .hero{height:160px}
+.scrolled .hero .pfp-hero{width:64px;height:64px;border-radius:50%}
+.scrolled .hero .hero-text{display:none}
+.scrolled .logo{transform:scale(.86)}
+.search-results{display:grid;gap:10px}
+.blog-item{cursor:pointer}
+.blog-body{max-height:0;overflow:hidden;transition:max-height .35s ease,padding .35s ease}
+.blog-body.open{padding-top:12px;max-height:800px}
+.tutorial-embed{position:relative;padding-top:56.25%;height:0;border-radius:10px;overflow:hidden}
+.tutorial-embed iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+@media(max-width:760px){
+  .hero{height:260px}
+  .hero .pfp-hero{width:160px;height:160px;border-radius:12px}
+  .hero .hero-text{display:none}
+  .header{position:static;background:transparent;padding:12px 16px}
+  nav{order:3;flex-wrap:nowrap;overflow:auto;padding:6px 0}
+  .search{min-width:140px}
+  .logo{width:48px;height:48px;border-radius:10px}
+  .logo-small{width:40px;height:40px}
+  .scrolled .hero{height:120px}
+}
+nav {
+display: flex;
+gap: 1rem;
+}
+nav a {
+text-decoration: none;
+color: #E6EFFF;
+font-weight: 500;
+}
+.hamburger {
+display: none;
+flex-direction: column;
+gap: 5px;
+cursor: pointer;
+}
+.hamburger span {
+width: 25px;
+height: 3px;
+background: #E6EFFF;
+}
+@media (max-width: 768px) {
+nav {
+display: none;
+flex-direction: column;
+background: #0A0F2C;
+position: absolute;
+top: 60px;
+right: 0;
+width: 200px;
+padding: 1rem;
+border-left: 1px solid #333;
+}
+nav.active {
+display: flex;
+}
+.hamburger {
+display: flex;
+}
+}
+nav {
+  display: flex;
+  gap: 1rem;
+}
+
+@media (max-width: 768px) {
+  nav {
+    display: none;
+    flex-direction: column;
+    background: #0A0F2C;
+    position: absolute;
+    top: 60px;
+    right: 0;
+    width: 200px;
+    padding: 1rem;
+    border-left: 1px solid #333;
+    z-index: 999;
+  }
+  nav.active {
+    display: flex;
+  }
+}
+
+</style>
+</head>
+<body>
+<div class="wrap" id="app">
+  <header class="header" id="header">
+    <div class="brand">
+      <div class="logo" id="logo">
+        <img id="logo-img" src="https://via.placeholder.com/300x300" alt="logo">
+      </div>
+      <div class="sitename">
+        <div class="title" id="site-title">Minimal website</div>
+      </div>
+    </div>
+    <div class="hamburger" onclick="document.getElementById('nav').classList.toggle('active')">
+    <span></span>
+    <span></span>
+    <span></span>
+    </div>
+    <nav id="nav">
+      <a href="#/" data-route="home" class="active">Home</a>
+      <a href="#/projects" data-route="projects">Projects</a>
+      <a href="#/blog" data-route="blog">Blog</a>
+      <a href="#/tutorials" data-route="tutorials">Tutorials</a>
+      <button id="themeBtn" aria-label="toggle theme" title="Theme">🌓</button>
+    </nav>
+    <div class="controls">
+      <div class="search" title="search">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <input id="q" placeholder="Search site (press /)" aria-label="search" />
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div id="page" class="page">
+      <div class="hero" id="hero">
+        <img class="hero-img" id="hero-img" src="https://via.placeholder.com/1600x900" alt="hero">
+        <div class="overlay"></div>
+        <div class="hero-inner">
+          <div class="pfp-hero" id="pfp-hero">
+            <img id="profile-hero-img" src="https://via.placeholder.com/800x800" alt="Profile">
+          </div>
+          <div class="hero-text">
+            <h1 id="hero-title">Hi — I'm Sadra.</h1>
+            <p id="hero-sub">I build games, edit videos, and tinker with web tools. This minimal site is static, searchable, and for GitHub Pages.</p>
+          </div>
+        </div>
+      </div>
+      <div class="container" id="content"></div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <footer>&copy; 2025 Sadra · Built with ♥</footer>
+  </main>
+</div>
+
+<script>
+const siteContent={
+  site:{name:"Sadra",tagline:"Making small things, learning big things",accent:"#0ea5a4"},
+  home:{intro:"Hey — I'm Sadra. I build games, edit videos, and tinker with web tools. This minimal site is static, searchable, and ready for GitHub Pages. Browse Projects, read Blog posts, and check Tutorials.",now:"Wanting to start making a movie",highlights:[{title:"Unreal Blueprints",desc:"Blueprint-heavy projects, UI + gameplay prototypes."},{title:"Video Editing",desc:"Velocity edits using Twixtor & RSMB; color grading experiments."},{title:"Web Utilities",desc:"Tiny JS tools: pagination, search, client-side markdown."}]},
+  projects:[
+    {id:"unreal",title:"Unreal Engine — Blueprints Toolkit",topic:"Unreal Engine",cover:"static/unreal.gif",excerpt:"Blueprint-only systems: custom UI, input managers, and gameplay tools.",body:"Long description:\nThis bundle contains Blueprint modules designed to be drop-in friendly.\nFeatures:\n- Reusable button widgets with animated states.\n- Input mapping systems for controllers and keyboard.\n- Performance notes and recommended settings."},
+    {id:"video",title:"Velocity Edits & Color Grading",topic:"Video Editing",cover:"static/video.gif",excerpt:"Velocity-edit techniques using Twixtor + RSMB and color grading workflows.",body:"Notes and preset details:\nThis guide explains how to chain Twixtor and RSMB for smooth slowdowns and hyper-speed ramps. Includes recommended settings and a sample timeline."},
+    {id:"web",title:"Web Development — Tiny Tools",topic:"Web Development",cover:"static/web.png",excerpt:"Client-side utilities: markdown renderer, search index, hash routing, and small components.",body:"Code snippets and explanations for small utilities to use on static sites. Each snippet is dependency-free and works on GitHub Pages."}
+  ],
+  blog:[
+    {slug:"minimalism",ti:"Minimalism",title:"Why Minimalism Works",date:"2025-04-10",content:"# Why minimalism works\n\nExploring the philosophy behind minimalist design and why it resonates in today's digital world.\n\nKey points:\n- Clarity\n- Speed\n- Focus"},
+    {slug:"js-tips",ti:"JavaScript",title:"JavaScript Tips",date:"2025-05-06",content:"# JavaScript Tips\n\nUse const for the best performance, var for worst and let for something in the middle."},
+    {slug:"productivity",ti:"Motivation",title:"Staying Productive",date:"2025-06-20",content:"# Staying Productive\n\nStay strong a continue your path."}
+  ],
+  tutorials:[
+    {id:"vid1",title:"Add Roles with Discord Reactions",youtube:"CzpCws55DBY"},
+    {id:"vid2",title:"Build an ASCII Art Generator",youtube:"OZkW_mG4h0k"},
+    {id:"vid3",title:"Detect Cat vs Dog",youtube:"DlWtw5VjjLc"}
+  ]
+}
+function mdToHtml(md){
+  if(!md) return"";
+  md=md.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+  md=md.replace(/```([\s\S]*?)```/g,function(m,code){return'<pre><code>'+code.replace(/&lt;/g,"<").replace(/&gt;/g,">")+'</code></pre>'});
+  md=md.replace(/`([^`]+)`/g,"<code>$1</code>");
+  md=md.replace(/^### (.*$)/gmi,"<h3>$1</h3>");
+  md=md.replace(/^## (.*$)/gmi,"<h2>$1</h2>");
+  md=md.replace(/^# (.*$)/gmi,"<h1>$1</h1>");
+  md=md.replace(/\*\*(.*?)\*\*/g,"<strong>$1</strong>");
+  md=md.replace(/\[(.*?)\]\((.*?)\)/g,'<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
+  md=md.replace(/(^|\n)\s*[-*+] (.+)/g,function(m,pre,item){return"\n<li>"+item+"</li>"});
+  md=md.replace(/(<li>.+<\/li>)/g,function(m){return"<ul>"+m+"</ul>"});
+  return md.split(/\n\n+/).map(function(para){
+    if(/^<h|^<ul|^<pre/.test(para)) return para;
+    return"<p>"+para.replace(/\n/g,"<br>")+"</p>";
+  }).join("");
+}
+const root=document.getElementById("content");
+const navLinks=document.querySelectorAll("#nav a");
+const qInput=document.getElementById("q");
+function setActive(route){
+  navLinks.forEach(a=>a.classList.toggle("active",a.dataset.route===route));
+}
+function renderHome(){
+  setActive("home");
+  root.innerHTML=`<div class="container"><section class="fade-in card"><h2>Welcome</h2><div class="md">${mdToHtml(siteContent.home.intro)}</div></section><section class="fade-in card"><h2>Highlights</h2><div class="grid">${siteContent.home.highlights.map(h=>`<div class="card"><h3>${h.title}</h3><p>${h.desc}</p></div>`).join("")}</div></section><section class="fade-in card"><h2>Now</h2><div class="md">${mdToHtml(siteContent.home.now)}</div></section></div>`;
+}
+function renderProjects(){
+  setActive("projects");
+  root.innerHTML=`<div><h2 style="margin:18px 0">Projects</h2><div class="grid">${siteContent.projects.map(p=>`<article class="card fade-in"><img src="${p.cover}" alt="${p.title}" style="width:100%;height:160px;object-fit:cover;border-radius:10px;margin-bottom:12px"><h3>${p.title}</h3><div class="meta">${p.topic}</div><p style="margin-top:8px">${p.excerpt}</p><div style="margin-top:10px"><a href="#/projects/${p.id}">View details →</a></div></article>`).join("")}</div></div>`;
+}
+function renderProjectDetail(id){
+  const p=siteContent.projects.find(x=>x.id===id);
+  if(!p){root.innerHTML="<p>Project not found</p>";return}
+  root.innerHTML=`<div style="padding:18px"><a href="#/projects">← back</a><h2 style="margin-top:8px">${p.title}</h2><div class="card"><img src="${p.cover}" alt="${p.title}" style="width:100%;height:320px;object-fit:cover;border-radius:10px;margin-bottom:12px"><div class="md">${mdToHtml(p.body)}</div></div></div>`;
+}
+function renderBlog(){
+  setActive("blog");
+  root.innerHTML=`<div style="padding:18px"><h2>Blog</h2><div class="grid">${siteContent.blog.map(b=>`<article class="card blog-item fade-in" data-slug="${b.slug}"><h3>${b.title}</h3><div class="meta">${b.date}</div><div class="md" style="margin-top:10px">${mdToHtml(b.ti)}</div><div class="blog-body" data-slug="${b.slug}"><div class="md" style="margin-top:8px">${mdToHtml(b.content)}</div></div></article>`).join("")}</div></div>`;
+  document.querySelectorAll(".blog-item").forEach(item=>{
+    item.addEventListener("click",function(e){
+      const slug=this.dataset.slug;
+      const body=this.querySelector(".blog-body");
+      const open=body.classList.contains("open");
+      document.querySelectorAll(".blog-body").forEach(b=>b.classList.remove("open"));
+      if(!open) body.classList.add("open");
+      e.stopPropagation();
+    });
+  });
+  document.addEventListener("click",function(e){
+    const isBlogItem=e.target.closest(".blog-item");
+    if(!isBlogItem){
+      document.querySelectorAll(".blog-body").forEach(b=>b.classList.remove("open"));
+    }
+  });
+}
+function renderTutorials(){
+  setActive("tutorials");
+  root.innerHTML=`<div style="padding:18px"><h2>Tutorials</h2><div class="grid">${siteContent.tutorials.map(t=>`<article class="card fade-in"><h3>${t.title}</h3><div class="tutorial-embed"><iframe src="https://www.youtube.com/embed/${t.youtube}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div></article>`).join("")}</div></div>`;
+}
+function router(){
+  const hash=location.hash.replace(/^#\/|^#/,"");
+  if(!hash){setActive("home");renderHome();return}
+  const parts=hash.split("/").filter(Boolean);
+  if(parts[0]==="projects"){
+    if(parts[1]) renderProjectDetail(parts[1]); else renderProjects();
+  } else if(parts[0]==="blog"){
+    renderBlog();
+  } else if(parts[0]==="tutorials"){
+    renderTutorials();
+  } else {
+    setActive("home");renderHome();
+  }
+}
+window.addEventListener("hashchange",router);
+const index=[];
+function buildIndex(){
+  index.length=0;
+  index.push({type:"home",id:"home",title:siteContent.site.name,body:siteContent.home.intro});
+  siteContent.projects.forEach(p=>index.push({type:"project",id:p.id,title:p.title,body:p.excerpt+" "+p.body}));
+  siteContent.blog.forEach(b=>index.push({type:"blog",id:b.slug,title:b.title,body:b.content}));
+  siteContent.tutorials.forEach(t=>index.push({type:"tutorial",id:t.id,title:t.title,body:t.title}));
+}
+function search(q){
+  if(!q) return[];
+  q=q.toLowerCase();
+  return index.map(item=>{
+    const score=(item.title+" "+item.body).toLowerCase().split(q).length-1;
+    return {item,score};
+  }).filter(x=>x.score>0).sort((a,b)=>b.score-a.score).map(x=>x.item);
+}
+qInput.addEventListener("input",function(e){
+  const val=e.target.value.trim();
+  if(!val){router();return}
+  const results=search(val);
+  root.innerHTML=`<div style="padding:18px"><h2>Search results for \"${val}\"</h2><div class="search-results">${results.length?results.map(r=>`<article class="card"><h3><a href="#/${r.type}${r.type==='home'?'':'/'}${r.id}">${r.title}</a></h3><p class="meta">${r.type}</p></article>`).join(""):'<div class="card">No results</div>'}</div></div>`;
+});
+window.addEventListener("keydown",function(e){if(e.key==="/" && document.activeElement!==qInput){e.preventDefault();qInput.focus()}});
+const themeBtn=document.getElementById("themeBtn");
+function applyTheme(pref){
+  if(pref==="auto"){
+    const dark=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;
+    document.documentElement.setAttribute("data-theme",dark?"dark":"light");
+  } else {
+    document.documentElement.setAttribute("data-theme",pref==="dark"?"dark":"light");
+  }
+}
+let theme=localStorage.getItem("site:theme")||"auto";
+applyTheme(theme);
+themeBtn.addEventListener("click",function(){
+  if(theme==="auto") theme="dark"; else if(theme==="dark") theme="light"; else theme="auto";
+  localStorage.setItem("site:theme",theme);
+  applyTheme(theme);
+  themeBtn.textContent=theme==="auto"?"🌓":theme==="dark"?"🌙":"🌞";
+});
+themeBtn.textContent=theme==="auto"?"🌓":theme==="dark"?"🌙":"🌞";
+const hero=document.getElementById("hero");
+const heroImg=document.getElementById("hero-img");
+const pfpHero=document.getElementById("pfp-hero");
+const logo=document.getElementById("logo");
+const logoImg=document.getElementById("logo-img");
+window.addEventListener("scroll",function(){
+  if(window.scrollY>60) document.body.classList.add("scrolled"); else document.body.classList.remove("scrolled");
+});
+function init(){
+  document.documentElement.style.setProperty("--accent",siteContent.site.accent||getComputedStyle(document.documentElement).getPropertyValue("--accent"));
+  document.getElementById("profile-hero-img").src="static/sadra.jpg";
+  document.getElementById("hero-img").src="static/hero.gif";
+  logoImg.src="static/giphy.gif";
+  buildIndex();
+  router();
+}
+init();
+</script>
+</body>
+</html>
