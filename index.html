@@ -400,8 +400,8 @@ window.addEventListener("scroll",function(){
 });
 function init(){
   document.documentElement.style.setProperty("--accent",siteContent.site.accent||getComputedStyle(document.documentElement).getPropertyValue("--accent"));
-  document.getElementById("profile-hero-img").src="static/sadra.jpg";
-  document.getElementById("hero-img").src="static/hero.gif";
+  document.getElementById("profile-hero-img").src="/static/sadra.jpg";
+  document.getElementById("hero-img").src="/static/hero.gif";
   logoImg.src="static/giphy.gif";
   buildIndex();
   router();
